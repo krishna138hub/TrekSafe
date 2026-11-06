@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TrackSafe Monitoring Station</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">TrackSafe <span>Monitoring Station</span></div>
+    <div class="sim-badge" title="All data is entered manually in the PyCharm console">SIMULATION MODE</div>
+    <div class="top-right">
+      <span id="conn" class="conn off">Connecting...</span>
+      <span id="clock" class="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <section class="summary">
+    <div class="card"><div class="num" id="s-total">0</div><div class="lbl">Total devices</div></div>
+    <div class="card ok"><div class="num" id="s-active">0</div><div class="lbl">Active devices</div></div>
+    <div class="card muted"><div class="num" id="s-offline">0</div><div class="lbl">Offline devices</div></div>
+    <div class="card sos" id="card-sos"><div class="num" id="s-sos">0</div><div class="lbl">SOS alerts</div></div>
+    <div class="card fall" id="card-fall"><div class="num" id="s-fall">0</div><div class="lbl">Fall alerts</div></div>
+  </section>
+
+  <main class="main">
+    <section class="panel map-panel">
+      <div class="panel-head">
+        <h2>Live map</h2>
+        <label class="toggle"><input type="checkbox" id="t-heat" checked> Device activity heatmap</label>
+        <label class="toggle"><input type="checkbox" id="t-offline" checked> Offline (last known)</label>
+      </div>
+      <div id="map"></div>
+    </section>
+
+    <aside class="side">
+      <section class="panel alerts-panel">
+        <div class="panel-head"><h2>Live alerts</h2><span id="alert-count" class="count">0</span></div>
+        <div id="alerts" class="alerts"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>Tourist device activity</h2></div>
+        <div id="zones" class="zones"></div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="bottom">
+    <section class="panel">
+      <div class="panel-head"><h2>Registered devices</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Device ID</th><th>Status</th><th>Zone</th><th>Last location</th>
+            <th>Last update</th><th>Heart rate</th><th>Battery</th><th>Alert</th>
+          </tr></thead>
+          <tbody id="devices"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>Activity log</h2></div>
+      <div id="log" class="log"></div>
+    </section>
+  </section>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
